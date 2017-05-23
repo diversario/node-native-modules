@@ -66,11 +66,30 @@ void PassString(const FunctionCallbackInfo<Value> &args) {
   args.GetReturnValue().Set(retval);
 }
 
+void PassObject(const FunctionCallbackInfo<Value> &args) {
+  Isolate *isolate = args.GetIsolate();
+  Local<Object> obj = args[0]->ToObject();
+  obj->Set(String::NewFromUtf8(isolate, "prop"), Number::New(isolate, 6));
+  args.GetReturnValue().Set(obj);
+}
+
+void IncrementArray(const FunctionCallbackInfo<Value> &args) {
+  Isolate *isolate = args.GetIsolate();
+  Local<Array> array = Local<Array>::Cast(args[0]);
+
+  for (unsigned int i = 0; i < array->Length(); i++) {
+    double n = array->Get(i)->NumberValue();
+    array->Set(i, Number::New(isolate, n + 1));
+  }
+}
+
 void Init(Local<Object> exports) {
   NODE_SET_METHOD(exports, "number", PassNumber);
   NODE_SET_METHOD(exports, "int", PassInt);
   NODE_SET_METHOD(exports, "bool", PassBool);
   NODE_SET_METHOD(exports, "string", PassString);
+  NODE_SET_METHOD(exports, "object", PassObject);
+  NODE_SET_METHOD(exports, "array", IncrementArray);
 }
 
 NODE_MODULE(pass_stuff, Init)

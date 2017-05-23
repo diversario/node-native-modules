@@ -16,3 +16,9 @@ console.log(pass_stuff.bool(true))
 console.log(pass_stuff.bool(false))
 
 console.log(pass_stuff.string('abcdef'))
+
+console.log(pass_stuff.object({}))
+
+let arr = [1, 2, 3, 4, 'no']
+pass_stuff.array(arr)
+console.log(arr)
