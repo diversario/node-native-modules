@@ -19,7 +19,9 @@ for (var i = 0; i < 10; i++) {
   locations.push(loc);
 }
 
-let average = addon.avg_rainfall(locations[0])
-console.log(average)
 
-console.log(addon.rainfall_data(locations[0]))
+addon.calculate_results_async(locations, function (err, results) {
+  console.log(err, results)
+})
+
+console.log(`JS executed.`)
